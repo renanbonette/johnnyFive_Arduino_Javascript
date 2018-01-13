@@ -12,6 +12,7 @@ Aplicação IoT utilizando o framework johnny-five, plataforma de prototipagem a
 ## Use
 
 - Acessar no browser a seguinte url: http://localhost:3000
+- Escolher a cor que será exibida pelo led através do componente color p[icker]
 
 ## Dependencies
 

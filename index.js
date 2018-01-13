@@ -8,37 +8,33 @@ const server = require('http').createServer(app);
 app.use(express.static(__dirname + '/public'))
 app.use(bodyParser.urlencoded({ extended: true }));
 
+const board = new five.Board(); 
+board.on('ready', onReady);
+let led;
+
 app.get('/', function(req, res) {
-  res.sendFile(__dirname + '/index.html')
+  res.sendFile(__dirname + '/index.html');
 });
-app.post('/', function(req, res){
-  console.log(req.body);
+app.post('/', function(req, res){  
+  setLedColor(req.body.rgb_color, led);
+  res.setHeader('Content-Type', 'application/json');
 });
 
-five.Board().on("ready", function() {
-  const led = new five.Led.RGB({
+//Função que inicia a placa
+function onReady(cor) {
+  led = new five.Led.RGB({
     pins: {
       red: 6,
       green: 5,
       blue: 3
     }
   });
+};
 
-  this.repl.inject({
-    led: led
-  });
-
-  led.on();
-  led.color("#FF0000");
-
+function setLedColor(color, led){
+  led.color(color);
   led.blink(1000);
-
-  let setLedState = function(color){
-    console.log(color);
-  }
-  setLedState("#FF00FF");
-  
-});
+}
 
 const port = process.env.PORT || 3000;
 
